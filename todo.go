@@ -1,7 +1,6 @@
 //TODO lol
 // shift todos after removing
 // actually change todo.txt when removing
-// do something about map iteration order
 package main
 
 import (
@@ -10,21 +9,28 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 )
 
-var addPtr = flag.String("a", "null", "add todo") // -a adds a todo item
-var removePtr = flag.Int("r", 0, "remove todo")   // -r removes a todo item
-var todos map[int]string                          // Maps todos as keys (int) to values (string)
+var todos map[int]string
 
 func display(m map[int]string) {
-	// Print entire todo list
-	for key, value := range todos {
-		fmt.Println(key, value)
+	var keys []int
+
+	// Print todo list in key order
+	for k := range todos {
+		keys = append(keys, k)
+	}
+	sort.Ints(keys)
+	for _, key := range keys {
+		fmt.Println(key, todos[key])
 	}
 }
 
 func main() {
-	flag.Parse()
+	var addPtr = flag.String("a", "null", "add todo") // -a adds a todo item
+	var removePtr = flag.Int("r", 0, "remove todo")   // -r removes a todo item
+
 	// If todo.txt file doesn't exist, create it, or append to the file
 	f, err := os.OpenFile("todo.txt", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
@@ -37,6 +43,7 @@ func main() {
 		line := scanner.Text()
 		todos[i] = line
 	}
+	flag.Parse() // Check command line arguments
 	if *addPtr != "null" {
 		// Add todo
 		fmt.Println("add: ", *addPtr)
