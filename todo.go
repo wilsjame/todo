@@ -1,6 +1,5 @@
 //TODO lol
-// shift todos after removing
-// actually change todo.txt when removing
+// Change todo.txt when removing
 package main
 
 import (
@@ -55,8 +54,13 @@ func main() {
 		// Remove todo
 		fmt.Println("remove: ", *removePtr)
 		delete(todos, *removePtr)
-		//TODO shift map key/values
-		// update todo.txt
+		for i := *removePtr; i < len(todos)+1; i++ {
+			todos[i] = todos[i+1]
+		}
+		// Remove trailing empty todo
+		if todos[len(todos)] == "" {
+			delete(todos, len(todos))
+		}
 	} else {
 		display(todos)
 	}
