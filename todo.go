@@ -1,5 +1,3 @@
-//TODO lol
-// Change todo.txt when removing
 package main
 
 import (
@@ -37,11 +35,12 @@ func main() {
 	}
 	todos = make(map[int]string)
 	scanner := bufio.NewScanner(f)
-	// Loop over all lines in the file and store them as todos
+	// Loop over all lines in the file and store them in todos
 	for i := 1; scanner.Scan(); i++ {
 		line := scanner.Text()
 		todos[i] = line
 	}
+
 	flag.Parse() // Check command line arguments
 	if *addPtr != "null" {
 		// Add todo
@@ -54,6 +53,7 @@ func main() {
 		// Remove todo
 		fmt.Println("remove: ", *removePtr)
 		delete(todos, *removePtr)
+		// Shift todos after removal
 		for i := *removePtr; i < len(todos)+1; i++ {
 			todos[i] = todos[i+1]
 		}
@@ -61,9 +61,24 @@ func main() {
 		if todos[len(todos)] == "" {
 			delete(todos, len(todos))
 		}
+		// Erase contents of todo.txt file
+		if err := f.Truncate(0); err != nil {
+			log.Fatal(err)
+		}
+		// Update todo.txt file--write from the beginning
+		if _, err := f.Seek(0, 0); err != nil {
+			log.Fatal(err)
+		}
+		for i := 1; i < len(todos)+1; i++ {
+			if _, err := f.WriteString(todos[i] + "\n"); err != nil {
+				log.Fatal(err)
+			}
+		}
 	} else {
+		// No flag
 		display(todos)
 	}
+
 	if err := f.Close(); err != nil {
 		log.Fatal(err)
 	}
