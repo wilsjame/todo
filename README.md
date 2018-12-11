@@ -1,3 +1,18 @@
+
+
+todo
+====
+
+`todo` is a small command line todo list program. It was tested with Go 1.11 on Ubuntu 18.04 LTS running on Windows Subsystem for Linux (WSL). You can download and install Go by following the [installation instructions](https://golang.org/doc/install).
+
+Installation
+------------
+ 
+	go get github.com/wilsjame/todo
+
+About
+-----
+
 ```
 NAME
 	todo - an interactive todo list
