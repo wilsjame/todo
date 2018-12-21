@@ -47,5 +47,5 @@ EXAMPLES
 ```
 
 <p align="center">
-    <img src="terminal_session.svg">
+    <img src="https://wilsjame.github.io/todo/terminal_session.svg">
 </p>
