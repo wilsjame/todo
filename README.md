@@ -45,3 +45,7 @@ EXAMPLES
 	todo -r 1
 		Remove todo with ID number 1.
 ```
+
+<p align="center">
+    <img src="terminal_session.svg">
+</p>
